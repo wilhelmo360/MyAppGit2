@@ -76,11 +76,23 @@ const mediaAPI = () => {
     }
   };
 
+
   const getUserFromToken = async () => {
     fetchGetUrl(apiUrl + 'users/user').then((json) => {
       console.log('getUserTOken', json);
       AsyncStorage.setItem('user', JSON.stringify(json));
     });
+  };
+
+
+  const getAvatar = (user) => {
+    const [avatar, setAvatar] = useState({});
+    console.log('avatar', apiUrl + 'tags/avatar_' + user.user_id);
+    fetchGetUrl(apiUrl + 'tags/avatar_' + user.user_id).then((json) => {
+      console.log('avatarjson', json[0].filename);
+      setAvatar(apiUrl + 'uploads/' + json[0].filename);
+    });
+    return avatar;
   };
 
   const userToContext = async () => { // Call this when app starts (= Home.js)
@@ -96,17 +108,6 @@ const mediaAPI = () => {
     return [user];
   };
 
-  const getAvatar = (user) => {
-    const [avatar, setAvatar] = useState({});
-    console.log('avatar', apiUrl + 'tags/avatar_' + user.user_id);
-    fetchGetUrl(apiUrl + 'tags/avatar_' + user.user_id).then((json) => {
-      console.log('avatarjson', json[0].filename);
-      setAvatar(apiUrl + 'uploads/' + json[0].filename);
-    });
-    return avatar;
-  };
-
-
   return {
     getAllMedia,
     getThumbnail,
@@ -114,6 +115,7 @@ const mediaAPI = () => {
     registerAsync,
     getUserFromToken,
     getAvatar,
+    userToContext,
   };
 };
 
