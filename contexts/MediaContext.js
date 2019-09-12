@@ -1,39 +1,20 @@
+/* eslint-disable max-len */
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+const initState = [{}, () => {}];
 
-const MediaContext = React.createContext({});
+const MediaContext = React.createContext(initState);
 const MediaProvider = (props) => {
-  const {
-    media: initialMedia,
-    user: initialUser,
-    children,
-  } = props;
-  const [media, setMedia] = useState(initialMedia);
-  const [user, setUser] = useState(initialUser);
-
-  const appContext = {
-    user,
-    setUser,
-    media,
-    setMedia,
-  };
-
+  const [media, setMedia] = useState({});
   return (
-    <MediaContext.Provider value={appContext}>
-      {children}
+    <MediaContext.Provider value={[media, setMedia]}>
+      {props.children}
     </MediaContext.Provider>
   );
 };
 
 MediaProvider.propTypes = {
-  media: PropTypes.array,
-  user: PropTypes.object,
   children: PropTypes.node,
-};
-
-MediaProvider.defaultProps = {
-  media: [],
-  selectedUser: {},
 };
 
 export {MediaContext, MediaProvider};

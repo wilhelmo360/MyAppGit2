@@ -76,7 +76,6 @@ const mediaAPI = () => {
     }
   };
 
-
   const getUserFromToken = async () => {
     fetchGetUrl(apiUrl + 'users/user').then((json) => {
       console.log('getUserTOken', json);
@@ -95,18 +94,6 @@ const mediaAPI = () => {
     return avatar;
   };
 
-  const userToContext = async () => { // Call this when app starts (= Home.js)
-    const {user, setUser} = useContext(MediaContext);
-    const getFromStorage = async () => {
-      const storageUser = JSON.parse(await AsyncStorage.getItem('user'));
-      console.log('storage', storageUser);
-      setUser(storageUser);
-    };
-    useEffect(() => {
-      getFromStorage();
-    }, []);
-    return [user];
-  };
 
   return {
     getAllMedia,
@@ -115,7 +102,6 @@ const mediaAPI = () => {
     registerAsync,
     getUserFromToken,
     getAvatar,
-    userToContext,
   };
 };
 
