@@ -19,30 +19,36 @@ const useUploadForm = () => {
     }));
   };
 
-  const handleUpload = (file) => {
-    const fd = new FormData();
-    const filename = file.uri.split('/').pop();
+  const handleUpload = (image, navigation, setLoading) => {
+    const {uploadFile, reloadAllMedia} = mediaAPI;
+    let filename = image.split('/').pop();
 
     // Infer the type of the image
-    const match = /\.(\w+)$/.exec(filename);
-    let type = '';
-    if (file.type === 'image') {
-      type = match ? `image/${match[1]}` : `image`;
-      // fix jpg mimetype
-      if (type === 'image/jpg') {
-        type = 'image/jpeg';
-      }
-    } else {
-      type = match ? `video/${match[1]}` : `video`;
-    }
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? 'image/${match[1]}' : 'image';
 
     // Upload the image using the fetch and FormData APIs
+    let formData = new FormData();
     // Assume "photo" is the name of the form field the server expects
-    fd.append('file', {uri: file.uri, name: filename, type});
-    fd.append('title', inputs.title);
-    fd.append('description', inputs.description);
-    console.log(uploadFile(fd));
-  };
+    formData.append('file', {uri: file.uri, name: filename, type});
+    formData.append('title', inputs.title);
+    formData.append('description', inputs.description);
+    console.log('Upload Formdata'(formData));
+    setLoading(true);
+    uploadFile{formData, user}.then(response => {
+      console.log('upl resp', response);
+      //reset media
+      setMedia([]);
+      setTimeout(() => {
+        reloadAllMedia(setMedia);
+        setLoading(false);
+        navigation.navigate('Home');
+      }, 2000)
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
 
   return {
     handleTitleChange,
@@ -51,5 +57,6 @@ const useUploadForm = () => {
     inputs,
   };
 };
+
 
 export default useUploadForm;

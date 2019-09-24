@@ -57,6 +57,18 @@ const uploadFile = async (formData) => {
   });
 };
 
+const reloadAllMedia = (setMedia) => {
+  fetchGetUrl('media').then((json) => {
+    setMedia(json);
+  });
+};
+
+const deleteMedia = async (file, user, setMedia) => {
+  return fetchDeleteUrl('media/' +file.file_id, user.token).then((json) =>
+    console.log('delete', json)
+  );
+};
+
 const mediaAPI = () => {
   const getAllMedia = () => {
     const {media, setMedia} = useContext(MediaContext);
@@ -174,6 +186,7 @@ const mediaAPI = () => {
     getUserInfo,
     checkAvailable,
     uploadFile,
+    reloadAllMedia,
   };
 };
 
