@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View, Image, ActivityIndicator} from 'react-native';
+import {View, Image} from 'react-native';
 import PropTypes from 'prop-types';
+import {Spinner} from 'native-base';
 
 const AImage = (props) => {
   console.log('Asimage props', props);
@@ -37,7 +38,7 @@ const AImage = (props) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <ActivityIndicator size="large" color={spinnerColor}/>
+              <Spinner color={spinnerColor} />
             </View>
       }
     </View>

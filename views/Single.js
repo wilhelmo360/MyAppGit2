@@ -1,36 +1,46 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import AImage from '../components/AsyncImage';
+import {Container, Content, Text, Card, CardItem, H2, Body} from 'native-base';
+import mediaAPI from '../hooks/ApiHooks';
 
 const Single = (props) => {
   const {navigation} = props;
   console.log('Singel navi', navigation.state);
   const file = navigation.state.params.file;
+  const {getUserInfo} = mediaAPI();
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>{file.title}</Text>
-      <AImage
-        source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + file.filename}}
-        style={{
-          borderRadius: 50,
-          width: '100%',
-          height: '90%',
-        }}
-        spinnerColor='#b3e5fc'
-      />
-    </SafeAreaView>
+    <Container>
+      <Content>
+        <Card>
+          <CardItem>
+            <Body>
+              <H2>{file.title}</H2>
+              <Text note>by: {getUserInfo(file.user_id).username}</Text>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <AImage
+                source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + file.filename}}
+                style={{
+                  borderRadius: 50,
+                  width: '100%',
+                  height: 500,
+                }}
+                spinnerColor='#b3e5fc'
+              />
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Text>{file.description}</Text>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 Single.propTypes = {
   navigation: PropTypes.object,

@@ -1,47 +1,70 @@
-import React, {useState, useEffect} from 'react';
+import React, {useContext} from 'react';
+import {AsyncStorage} from 'react-native';
+import PropTypes from 'prop-types';
 import {
-  StyleSheet,
-  SafeAreaView,
+  Icon,
+  Container,
+  Content,
   Text,
   Button,
-  AsyncStorage,
-} from 'react-native';
-import PropTypes from 'prop-types';
+  Card,
+  CardItem,
+  Left,
+  H2,
+  Body,
+} from 'native-base';
+import mediaAPI from '../hooks/ApiHooks';
+import AImage from '../components/AsyncImage';
+import {MediaContext} from '../contexts/MediaContext';
 
 const Profile = (props) => {
-  const [user, setUser] = useState({});
-  const getUser = async () => {
-    const user = await AsyncStorage.getItem('user');
-    setUser(JSON.parse(user));
-  };
-  useEffect(() => {
-    getUser();
-  }, []);
+  const {user} = useContext(MediaContext);
   console.log('ret user', user);
+  const {getAvatar} = mediaAPI();
   const signOutAsync = async () => {
     await AsyncStorage.clear();
     props.navigation.navigate('Auth');
   };
   return (
-    <SafeAreaView style={styles.container}>
-      {user &&
-        <Text>{user.username}</Text>
-      }
-      <Button title="Logout!" onPress={signOutAsync}
-      />
-    </SafeAreaView>
+    <Container>
+      <Content>
+        {user &&
+        <Card>
+          <CardItem>
+            <Left>
+              <H2>{user.username}</H2>
+            </Left>
+            <Body>
+              <Text>{user.full_name}</Text>
+              <Text note>{user.email}</Text>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <AImage
+                source={{uri: getAvatar(user)}}
+                style={{
+                  borderRadius: 50,
+                  width: '100%',
+                  height: 500,
+                }}
+                spinnerColor='#b3e5fc'
+              />
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Button onPress={signOutAsync}>
+                <Icon name="log-out" />
+              </Button>
+            </Left>
+          </CardItem>
+        </Card>
+        }
+      </Content>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
-  },
-});
 
 Profile.propTypes = {
   navigation: PropTypes.object,
