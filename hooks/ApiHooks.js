@@ -32,6 +32,31 @@ const fetchPostUrl = async (url, data) => {
   return json;
 };
 
+const fetchUploadUrl = async (url, data) => {
+  const userToken = await AsyncStorage.getItem('userToken');
+  console.log('fetchUploadUrl', url, data, userToken);
+  const response = await fetch(apiUrl + url, {
+    method: 'POST',
+    headers: {
+      'content-type': 'multipart/form-data',
+      'x-access-token': userToken,
+    },
+    body: data,
+  });
+  let json = {error: 'oops'};
+  if (response.ok) {
+    json = await response.json();
+    console.log('fetchUploadUrl json', json);
+  }
+  return json;
+};
+
+const uploadFile = async (formData) => {
+  return fetchUploadUrl('media', formData).then((json) => {
+    return json;
+  });
+};
+
 const mediaAPI = () => {
   const getAllMedia = () => {
     const {media, setMedia} = useContext(MediaContext);
@@ -148,6 +173,7 @@ const mediaAPI = () => {
     getAvatar,
     getUserInfo,
     checkAvailable,
+    uploadFile,
   };
 };
 
