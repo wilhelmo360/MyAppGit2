@@ -65,7 +65,8 @@ const reloadAllMedia = (setMedia) => {
 
 const deleteMedia = async (file, user, setMedia) => {
   return fetchDeleteUrl('media/' +file.file_id, user.token).then((json) =>
-    console.log('delete', json)
+    console.log('delete', json =>
+    )
   );
 };
 

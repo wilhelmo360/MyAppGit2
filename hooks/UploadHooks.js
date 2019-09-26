@@ -1,8 +1,6 @@
 import {useState, useContext} from 'react';
 import mediaAPI from './ApiHooks';
 
-const {uploadFile} = mediaAPI();
-
 const useUploadForm = () => {
   const [inputs, setInputs] = useState({});
   // upload form event handlers
