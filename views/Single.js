@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AImage from '../components/AsyncImage';
 import {Container, Content, Text, Card, CardItem, H2, Body} from 'native-base';
 import mediaAPI from '../hooks/ApiHooks';
+import {Video} from 'expo-av';
 
 const Single = (props) => {
   const {navigation} = props;
@@ -21,6 +22,7 @@ const Single = (props) => {
           </CardItem>
           <CardItem>
             <Body>
+              {file.media_type === 'image' &&
               <AImage
                 source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + file.filename}}
                 style={{
@@ -30,6 +32,16 @@ const Single = (props) => {
                 }}
                 spinnerColor='#b3e5fc'
               />
+              }
+              {file.media_type === 'video' &&
+              <Video source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + file.filename}}
+                style={{
+                  width: '100%',
+                  height: 500,
+                }}
+                useNativeControls={true}
+              />
+              }
             </Body>
           </CardItem>
           <CardItem>

@@ -144,7 +144,7 @@ const mediaAPI = () => {
       fetchGetUrl(apiUrl + 'users/' + userId).then((json) => {
         setUserInfo(json);
       }).catch((error)=>{
-        setUserInfo({});
+        console.log(console.error);
       });
     }, []);
     return userInfo;

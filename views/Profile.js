@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {AsyncStorage} from 'react-native';
 import PropTypes from 'prop-types';
+import Geolocation from '../components/Geolocation';
 import {
   Icon,
   Container,
@@ -61,6 +62,7 @@ const Profile = (props) => {
           </CardItem>
         </Card>
         }
+        <Geolocation>${Geolocation} + <text> lol </text></Geolocation>
       </Content>
     </Container>
   );

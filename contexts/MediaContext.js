@@ -6,16 +6,21 @@ const MediaProvider = (props) => {
   const {
     media: initialMedia,
     user: initialUser,
+    where: initialWhere,
     children,
   } = props;
   const [media, setMedia] = useState(initialMedia);
   const [user, setUser] = useState(initialUser);
+  const [where, setWhere] = useState(initialWhere);
+
 
   const appContext = {
     user,
     setUser,
     media,
     setMedia,
+    where,
+    setWhere,
   };
 
   return (
@@ -29,11 +34,13 @@ MediaProvider.propTypes = {
   media: PropTypes.array,
   user: PropTypes.object,
   children: PropTypes.node,
+  where: PropTypes.object,
 };
 
 MediaProvider.defaultProps = {
   media: [],
   user: {},
+  where: {lat: null, lng: null},
 };
 
 export {MediaContext, MediaProvider};
